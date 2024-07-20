@@ -17,7 +17,17 @@ public class PlayerController : MonoBehaviour
     float currentAngleX;
     float currentAngleY;
 
-    float camYOffset = 1f;
+    float originPosY;
+
+    [SerializeField] GameObject go_NotcamDown;
+    [SerializeField] GameObject go_NotcamUp;
+    [SerializeField] GameObject go_NotcamRight;
+    [SerializeField] GameObject go_NotcamLeft;
+
+    void Start()
+    {
+        originPosY = tf_CameraView.localPosition.y;    
+    }
 
     void Update()
     {
@@ -25,6 +35,24 @@ public class PlayerController : MonoBehaviour
         CameraViewMoving();
         CameraViewMovingByKey();
         CameraLimit();
+        NotCamUI();
+    }
+
+    void NotCamUI()
+    {
+        go_NotcamDown.SetActive(false);
+        go_NotcamUp.SetActive(false);
+        go_NotcamRight.SetActive(false);
+        go_NotcamLeft.SetActive(false);
+
+        if (currentAngleY >= lookLimitX)
+            go_NotcamRight.SetActive(true);
+        else if (currentAngleY <= -lookLimitX)
+            go_NotcamLeft.SetActive(true);
+        if (currentAngleX <= -lookLimitY)
+            go_NotcamUp.SetActive(true);
+        else if (currentAngleX >= lookLimitY)
+            go_NotcamDown.SetActive(true);
     }
 
     void CameraLimit()
@@ -37,13 +65,13 @@ public class PlayerController : MonoBehaviour
         {
             tf_CameraView.localPosition = new Vector3(-camBoundary.x, tf_CameraView.localPosition.y, tf_CameraView.localPosition.z);
         }
-        if(tf_CameraView.localPosition.y >= camBoundary.y + camYOffset)
+        if(tf_CameraView.localPosition.y >= originPosY + camBoundary.y)
         {
-            tf_CameraView.localPosition = new Vector3(tf_CameraView.localPosition.x, camBoundary.y + camYOffset, tf_CameraView.localPosition.z);
+            tf_CameraView.localPosition = new Vector3(tf_CameraView.localPosition.x, originPosY + camBoundary.y, tf_CameraView.localPosition.z);
         }
-        else if(tf_CameraView.localPosition.y <= camYOffset -camBoundary.y)
+        else if(tf_CameraView.localPosition.y <= originPosY -camBoundary.y)
         {
-            tf_CameraView.localPosition = new Vector3(tf_CameraView.localPosition.x, -camBoundary.y + camYOffset, tf_CameraView.localPosition.z);
+            tf_CameraView.localPosition = new Vector3(tf_CameraView.localPosition.x, originPosY - camBoundary.y, tf_CameraView.localPosition.z);
         }
     }
 
