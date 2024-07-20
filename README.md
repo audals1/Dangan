@@ -1,3 +1,5 @@
 # Prototype
 
-# we have 3men. Guess our project name's mean
+# 단간론파 모작 진행중
+
+# Unity Version 2022.3.19f 
