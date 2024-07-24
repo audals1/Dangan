@@ -10,6 +10,8 @@ public class InteractionController : MonoBehaviour
 
     [SerializeField] GameObject go_NormalCrosshair;
     [SerializeField] GameObject go_InteractionCrosshair;
+    [SerializeField] GameObject go_Crosshair;
+    [SerializeField] GameObject go_Cursor;
 
     bool isContact = false;
     bool isInteract = false;
@@ -17,11 +19,24 @@ public class InteractionController : MonoBehaviour
     [SerializeField] ParticleSystem ps_QuestionEffect;
     [SerializeField] ParticleSystem ps_ColliderEffect;
 
+    DialogueManager dialogueManager;
+
+    private void Start()
+    {
+        dialogueManager = FindObjectOfType<DialogueManager>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         CheckObject();
         ClickLeftBtn();
+    }
+
+    public void HideUI()
+    {
+        go_Crosshair.SetActive(false);
+        go_Cursor.SetActive(false);
     }
 
     void CheckObject()
@@ -75,5 +90,15 @@ public class InteractionController : MonoBehaviour
         Vector3 t_TargetPos = hitInfo.transform.position;
         ps_QuestionEffect.GetComponent<QuestionEffect>().SetTarget(t_TargetPos);
         ps_QuestionEffect.transform.position = Cam.transform.position;
+
+        StartCoroutine(WaitCollision());
+    }
+
+    IEnumerator WaitCollision()
+    {
+        yield return new WaitUntil(() => QuestionEffect.isCollide);
+        QuestionEffect.isCollide = false;
+
+        dialogueManager.ShowDialogue();
     }
 }
