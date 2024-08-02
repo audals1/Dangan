@@ -135,7 +135,7 @@ public class InteractionController : MonoBehaviour
             t_Color.a = 0;
             while (t_Color.a < 1)
             {
-                t_Color.a += Time.deltaTime * 2;
+                t_Color.a += 0.1f;
                 img_Interaction.color = t_Color;
                 yield return null;
             }
@@ -144,7 +144,7 @@ public class InteractionController : MonoBehaviour
         {
             while (t_Color.a > 0)
             {
-                t_Color.a -= Time.deltaTime * 2;
+                t_Color.a -= 0.1f;
                 img_Interaction.color = t_Color;
                 yield return null;
             }
@@ -155,15 +155,15 @@ public class InteractionController : MonoBehaviour
     {
         while (isContact && !isInteract)
         {
-            Color t_Color = img_InteractionEffect.color;
-            t_Color.a = 0.5f;
+            Color color = img_InteractionEffect.color;
+            color.a = 0.5f;
             img_InteractionEffect.transform.localScale = Vector3.one;
             Vector3 t_Scale = Vector3.one;
 
-            while (t_Color.a > 0)
+            while (color.a > 0)
             {
-                t_Color.a -= Time.deltaTime;
-                img_InteractionEffect.color = t_Color;
+                color.a -= Time.deltaTime;
+                img_InteractionEffect.color = color;
 
                 t_Scale.Set(t_Scale.x + Time.deltaTime, t_Scale.y + Time.deltaTime, t_Scale.z + Time.deltaTime);
                 img_InteractionEffect.transform.localScale = t_Scale;
