@@ -39,11 +39,13 @@ public class InteractionController : MonoBehaviour
         ClickLeftBtn();
     }
 
-    public void HideUI()
+    public void SettingMouseUI(bool p_flag)
     {
-        go_Crosshair.SetActive(false);
-        go_Cursor.SetActive(false);
-        go_TargetNameBar.SetActive(false);
+        go_Crosshair.SetActive(p_flag);
+        go_Cursor.SetActive(p_flag);
+        go_TargetNameBar.SetActive(p_flag);
+
+        isInteract = !p_flag;
     }
 
     void CheckObject()
