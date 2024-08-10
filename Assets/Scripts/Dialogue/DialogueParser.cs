@@ -9,13 +9,13 @@ public class DialogueParser : MonoBehaviour
         List<Dialogue> dialogueList = new List<Dialogue>();
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName);
 
-        string[] data = csvData.text.Split(new char[] { '\n' }); // °³ÇàÀ¸·Î ±¸ºÐ
+        string[] data = csvData.text.Split(new char[] { '\n' }); // ê°œí–‰ìœ¼ë¡œ êµ¬ë¶„
 
         for (int i = 1; i < data.Length;)
         {
-            string[] row = data[i].Split(new char[] { ',' }); // ,·Î ±¸ºÐ
+            string[] row = data[i].Split(new char[] { ',' }); // ,ë¡œ êµ¬ë¶„
 
-            Dialogue dialogue = new Dialogue(); // ´ëÈ­ °´Ã¼ »ý¼º
+            Dialogue dialogue = new Dialogue(); // ëŒ€í™” ê°ì²´ ìƒì„±
 
             dialogue.name = row[1];
 

@@ -16,7 +16,6 @@ public class QuestionEffect : MonoBehaviour
     {
         targetPos = _targetPos;
     }
-    // Update is called once per frame
     void Update()
     {
         if (targetPos == Vector3.zero) return;

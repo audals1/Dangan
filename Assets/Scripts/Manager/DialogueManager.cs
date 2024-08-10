@@ -13,13 +13,13 @@ public class DialogueManager : MonoBehaviour
 
     Dialogue[] dialogues;
 
-    bool isDialogue = false; // ´ëÈ­ ÁßÀÏ °æ¿ì true
-    bool isNext = false; // Å° ÀÔ·Â ´ë±â
+    bool isDialogue = false; // ëŒ€í™” ì¤‘ì¼ ê²½ìš° true
+    bool isNext = false; // í‚¤ ì…ë ¥ ëŒ€ê¸°
 
-    int lineCount = 0; // ´ëÈ­ Ä«¿îÆ®
-    int contextCount = 0; // ´ë»ç Ä«¿îÆ®
+    int lineCount = 0; // ëŒ€í™” ì¹´ìš´íŠ¸
+    int contextCount = 0; // ëŒ€ì‚¬ ì¹´ìš´íŠ¸
 
-    [Header("ÅØ½ºÆ® Ãâ·Â µô·¹ÀÌ")]
+    [Header("í…ìŠ¤íŠ¸ ì¶œë ¥ ë”œë ˆì´")]
     [SerializeField] float typeDelay = 0.1f;
 
     InteractionController interactionController;
@@ -86,7 +86,7 @@ public class DialogueManager : MonoBehaviour
     {
         SettingDialogueUI(true);
 
-        string t_ReplaceText = dialogues[lineCount].contexts[contextCount]; //'¸¦ ,·Î ¹Ù²Ù±â
+        string t_ReplaceText = dialogues[lineCount].contexts[contextCount]; //'ë¥¼ ,ë¡œ ë°”ê¾¸ê¸°
         t_ReplaceText = t_ReplaceText.Replace("'", ",");
         txt_Name.text = dialogues[lineCount].name;
 
