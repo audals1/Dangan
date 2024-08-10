@@ -17,19 +17,24 @@ public class DialogueParser : MonoBehaviour
 
             Dialogue dialogue = new Dialogue(); // 대화 객체 생성
 
-            dialogue.name = row[1]; // 이름
-            List<string> contextList = new List<string>(); // 대화 내용
+            dialogue.name = row[1];
+
+            List<string> contextList = new List<string>();
+
             do
             {
-                contextList.Add(row[2]); //엑셀 데이터중 대화부분을 리스트에 추가
+                contextList.Add(row[2]);
                 if (++i < data.Length)
-                    row = data[i].Split(new char[] { ',' }); // 다음 대화 내용으로 이동
-                else break;
+                {
+                    row = data[i].Split(new char[] { ',' });
+                }else{
+                    break;
+                }
             } while (row[0].ToString() == "");
 
-            dialogue.contexts = contextList.ToArray(); // 대화 내용 배열로 변환
+            dialogue.contexts = contextList.ToArray();
 
-            dialogueList.Add(dialogue); // 대화 객체 리스트에 추가
+            dialogueList.Add(dialogue);
         }
 
         return dialogueList.ToArray();
@@ -39,5 +44,4 @@ public class DialogueParser : MonoBehaviour
     {
         Parse("prologue");
     }
-
 }
