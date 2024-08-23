@@ -6025,6 +6025,7 @@ GameObject:
   - component: {fileID: 436388389}
   - component: {fileID: 436388388}
   - component: {fileID: 436388387}
+  - component: {fileID: 436388390}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6106,6 +6107,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 171204466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &436388390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 436388386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f599e03fbefdc50419d4a85b04cc5804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &438709764
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7486,13 +7499,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149778563}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -0.31, z: 0}
   m_LocalScale: {x: 0.05, y: 0.05, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1774673817}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &1149778565
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -14308,14 +14321,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1774673816}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -8.56, y: 0.67, z: -8.74}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1149778564}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &1774673818
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14366,13 +14379,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueEvent:
     name: "\uBD09\uB780 \uC790\uAE30\uC18C\uAC1C"
-    line: {x: 1, y: 3}
+    line: {x: 1, y: 4}
     dialogues:
-    - name: 
+    - target: {fileID: 1774673817}
+      name: 
       contexts: []
-    - name: 
+    - target: {fileID: 0}
+      name: 
       contexts: []
-    - name: 
+    - target: {fileID: 0}
+      name: 
+      contexts: []
+    - target: {fileID: 0}
+      name: 
       contexts: []
 --- !u!65 &1786741872
 BoxCollider:

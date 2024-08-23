@@ -23,10 +23,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] float typeDelay = 0.1f;
 
     InteractionController interactionController;
+    CameraController cameraController;
 
     private void Start()
     {
         interactionController = FindObjectOfType<InteractionController>();
+        cameraController = FindObjectOfType<CameraController>();
     }
 
     private void Update()
@@ -46,6 +48,7 @@ public class DialogueManager : MonoBehaviour
                         contextCount = 0;
                         if(++lineCount < dialogues.Length)
                         {
+                            cameraController.CameraTargetting(dialogues[lineCount].target);
                             StartCoroutine(TypeWriter());
                         }
                         else
@@ -67,7 +70,7 @@ public class DialogueManager : MonoBehaviour
         interactionController.SettingMouseUI(false);
 
         dialogues = p_dialogues;
-
+        cameraController.CameraTargetting(dialogues[lineCount].target);
         StartCoroutine(TypeWriter());
     }
 

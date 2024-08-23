@@ -5,10 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class Dialogue
 {
-    [Tooltip("´ë»çÁß Ä³¸¯ÅÍ")]
+    [Header("ì¹´ë©”ë¼ íƒ€ê²Ÿ ëŒ€ìƒ")]
+    public Transform target;
+
+    [HideInInspector]
     public string name;
 
-    [Tooltip("´ë»ç")]
+    [HideInInspector]
     public string[] contexts;
 }
 
