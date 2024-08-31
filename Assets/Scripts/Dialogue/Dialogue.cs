@@ -27,6 +27,9 @@ public class Dialogue
 
     [HideInInspector]
     public string[] spriteName;
+
+    [HideInInspector]
+    public string[] voiceName;
 }
 
 [System.Serializable]

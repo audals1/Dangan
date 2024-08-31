@@ -117,10 +117,19 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(spriteManager.SpriteChangeCoroutine(dialogues[lineCount].target, dialogues[lineCount].spriteName[contextCount].Trim()));
     }
 
+    void PlaySound()
+    {
+        if (dialogues[lineCount].voiceName[contextCount] == "")
+            return;
+
+        SoundManager.instance.PlaySound(dialogues[lineCount].voiceName[contextCount], 2);
+    }
+
     IEnumerator TypeWriter()
     {
         SettingDialogueUI(true);
         ChangeSprite();
+        PlaySound();
 
         string t_ReplaceText = dialogues[lineCount].contexts[contextCount]; //'를 ,로 바꾸기
         t_ReplaceText = t_ReplaceText.Replace("'", ",");
@@ -136,6 +145,8 @@ public class DialogueManager : MonoBehaviour
                 case 'ⓦ': t_white = true; t_yellow = false; t_cyan = false; t_ignore = true; break;
                 case 'ⓨ': t_white = false; t_yellow = true; t_cyan = false; t_ignore = true; break;
                 case 'ⓒ': t_white = false; t_yellow = false; t_cyan = true; t_ignore = true; break;
+                case '①': StartCoroutine(splashManager.Splash()); SoundManager.instance.PlaySound("Emotion1", 1); t_ignore = true; break;
+                case '②': StartCoroutine(splashManager.Splash()); SoundManager.instance.PlaySound("Emotion2", 1); t_ignore = true; break;
             }
 
             string t_letter = t_ReplaceText[i].ToString();
