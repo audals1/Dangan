@@ -26,6 +26,7 @@ public class DialogueManager : MonoBehaviour
     CameraController cameraController;
     SpriteManager spriteManager;
     SplashManager splashManager;
+    CutSceneManager cutSceneManager;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class DialogueManager : MonoBehaviour
         cameraController = FindObjectOfType<CameraController>();
         spriteManager = FindObjectOfType<SpriteManager>();
         splashManager = FindObjectOfType<SplashManager>();
+        cutSceneManager = FindObjectOfType<CutSceneManager>();
     }
 
     private void Update()
@@ -56,7 +58,7 @@ public class DialogueManager : MonoBehaviour
                         }
                         else
                         {
-                            EndDialogue();
+                            StartCoroutine(EndDialogue());
                         }
                     }
                 }
@@ -85,12 +87,10 @@ public class DialogueManager : MonoBehaviour
             case CameraType.FadeOut: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(false, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
             case CameraType.FlashIn: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(true, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
             case CameraType.FlashOut: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(true, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
-            case CameraType.Targetting:
-                cameraController.CameraTargetting(dialogues[lineCount].target);
-                break;
-            case CameraType.Reset:
-                cameraController.CameraTargetting(null, 0.01f, true, false);
-                break;
+            case CameraType.Targetting: cameraController.CameraTargetting(dialogues[lineCount].target); break;
+            case CameraType.Reset: cameraController.CameraTargetting(null, 0.01f, true, false); break;
+            case CameraType.ShowCutScene: SettingDialogueUI(false); CutSceneManager.isFinished = false; StartCoroutine(cutSceneManager.CutSceneCoroutine(dialogues[lineCount].spriteName[contextCount], true)); yield return new WaitUntil(() => CutSceneManager.isFinished); break;
+            case CameraType.HideCutScene: SettingDialogueUI(false); CutSceneManager.isFinished = false; StartCoroutine(cutSceneManager.CutSceneCoroutine(null, false)); yield return new WaitUntil(() => CutSceneManager.isFinished); cameraController.CameraTargetting(dialogues[lineCount].target); break;
             default:
                 break;
         }
@@ -98,8 +98,15 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(TypeWriter());
     }
 
-    void EndDialogue()
+    IEnumerator EndDialogue()
     {
+        SettingDialogueUI(false);
+        if(cutSceneManager.CheckCutScene())
+        {
+            CutSceneManager.isFinished = false;
+            StartCoroutine(cutSceneManager.CutSceneCoroutine(null, false));
+            yield return new WaitUntil(() => CutSceneManager.isFinished);
+        }
         isDialogue = false;
         lineCount = 0;
         contextCount = 0;
@@ -111,10 +118,13 @@ public class DialogueManager : MonoBehaviour
 
     void ChangeSprite()
     {
-        if (dialogues[lineCount].spriteName[contextCount] == "")
-            return;
+        if (dialogues[lineCount].target != null)
+        {
+            if (dialogues[lineCount].spriteName[contextCount] == "")
+                return;
 
-        StartCoroutine(spriteManager.SpriteChangeCoroutine(dialogues[lineCount].target, dialogues[lineCount].spriteName[contextCount].Trim()));
+            StartCoroutine(spriteManager.SpriteChangeCoroutine(dialogues[lineCount].target, dialogues[lineCount].spriteName[contextCount].Trim()));
+        }
     }
 
     void PlaySound()
