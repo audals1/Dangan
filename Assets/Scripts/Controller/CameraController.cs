@@ -5,11 +5,42 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    public void CameraTargetting(Transform target, float camSpeed = 0.05f)
+    Vector3 originPos;
+    Quaternion originRot;
+
+    InteractionController interactionController;
+    PlayerController playerController;
+
+    Coroutine cameraCoroutine;
+
+    private void Start()
     {
-        if (target == null) return;
-        StopAllCoroutines();
-        StartCoroutine(CameraTargettingCoroutine(target, camSpeed));
+        interactionController = FindObjectOfType<InteractionController>();
+        playerController = FindObjectOfType<PlayerController>();
+    }
+
+    public void CamOriginSetting()
+    {
+        originPos = transform.position;
+        originRot = Quaternion.Euler(0, 0, 0);
+    }
+
+    public void CameraTargetting(Transform target, float camSpeed = 0.05f, bool isReset = false, bool isFinish = false)
+    {
+        if(!isReset)
+        {
+            if (target == null) return;
+            StopAllCoroutines();
+            cameraCoroutine = StartCoroutine(CameraTargettingCoroutine(target, camSpeed));
+        }
+        else
+        {
+            if(cameraCoroutine != null)
+            {
+                StopCoroutine(cameraCoroutine);
+            }
+            StartCoroutine(CameraResetCoroutine(camSpeed, isFinish));
+        }
     }
 
     IEnumerator CameraTargettingCoroutine(Transform target, float camSpeed = 0.05f)
@@ -23,6 +54,26 @@ public class CameraController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetFrontPos, camSpeed);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), camSpeed);
             yield return null;
+        }
+    }
+
+    IEnumerator CameraResetCoroutine(float camSpeed = 0.1f, bool isFinish = false)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        while (transform.position != originPos || Quaternion.Angle(transform.rotation, originRot) >= 0.5f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, originPos, camSpeed);
+            transform.rotation = Quaternion.Lerp(transform.rotation, originRot, camSpeed);
+            yield return null;
+        }
+
+        transform.position = originPos;
+
+        if (isFinish)
+        {
+            interactionController.SettingMouseUI(true);
+            playerController.ResetAngle();
         }
     }
 }

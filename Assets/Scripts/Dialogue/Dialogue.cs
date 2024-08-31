@@ -2,10 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CameraType
+{
+    Targetting,
+    Reset,
+    FadeOut,
+    FadeIn,
+    FlashOut,
+    FlashIn,
+}
+
 [System.Serializable]
 public class Dialogue
 {
     [Header("카메라 타겟 대상")]
+    public CameraType cameraType;
     public Transform target;
 
     [HideInInspector]
@@ -13,6 +24,9 @@ public class Dialogue
 
     [HideInInspector]
     public string[] contexts;
+
+    [HideInInspector]
+    public string[] spriteName;
 }
 
 [System.Serializable]

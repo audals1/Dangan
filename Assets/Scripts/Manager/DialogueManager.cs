@@ -24,11 +24,15 @@ public class DialogueManager : MonoBehaviour
 
     InteractionController interactionController;
     CameraController cameraController;
+    SpriteManager spriteManager;
+    SplashManager splashManager;
 
     private void Start()
     {
         interactionController = FindObjectOfType<InteractionController>();
         cameraController = FindObjectOfType<CameraController>();
+        spriteManager = FindObjectOfType<SpriteManager>();
+        splashManager = FindObjectOfType<SplashManager>();
     }
 
     private void Update()
@@ -48,8 +52,7 @@ public class DialogueManager : MonoBehaviour
                         contextCount = 0;
                         if(++lineCount < dialogues.Length)
                         {
-                            cameraController.CameraTargetting(dialogues[lineCount].target);
-                            StartCoroutine(TypeWriter());
+                            StartCoroutine(CameraTargetSettingType());
                         }
                         else
                         {
@@ -70,7 +73,28 @@ public class DialogueManager : MonoBehaviour
         interactionController.SettingMouseUI(false);
 
         dialogues = p_dialogues;
-        cameraController.CameraTargetting(dialogues[lineCount].target);
+        cameraController.CamOriginSetting();
+        StartCoroutine(CameraTargetSettingType());
+    }
+
+    IEnumerator CameraTargetSettingType()
+    {
+        switch (dialogues[lineCount].cameraType)
+        {
+            case CameraType.FadeIn: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(false, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
+            case CameraType.FadeOut: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(false, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
+            case CameraType.FlashIn: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(true, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
+            case CameraType.FlashOut: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(true, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
+            case CameraType.Targetting:
+                cameraController.CameraTargetting(dialogues[lineCount].target);
+                break;
+            case CameraType.Reset:
+                cameraController.CameraTargetting(null, 0.01f, true, false);
+                break;
+            default:
+                break;
+        }
+
         StartCoroutine(TypeWriter());
     }
 
@@ -81,13 +105,22 @@ public class DialogueManager : MonoBehaviour
         contextCount = 0;
         dialogues = null;
         isNext = false;
-        interactionController.SettingMouseUI(true);
+        cameraController.CameraTargetting(null, 0.01f, true, true);
         SettingDialogueUI(false);
+    }
+
+    void ChangeSprite()
+    {
+        if (dialogues[lineCount].spriteName[contextCount] == "")
+            return;
+
+        StartCoroutine(spriteManager.SpriteChangeCoroutine(dialogues[lineCount].target, dialogues[lineCount].spriteName[contextCount].Trim()));
     }
 
     IEnumerator TypeWriter()
     {
         SettingDialogueUI(true);
+        ChangeSprite();
 
         string t_ReplaceText = dialogues[lineCount].contexts[contextCount]; //'를 ,로 바꾸기
         t_ReplaceText = t_ReplaceText.Replace("'", ",");
@@ -150,6 +183,11 @@ public class DialogueManager : MonoBehaviour
                 go_DialogueNameBar.SetActive(true);
                 txt_Name.text = dialogues[lineCount].name;
             }
+        }
+
+        else
+        {
+            go_DialogueNameBar.SetActive(false);
         }
     }
 }

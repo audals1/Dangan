@@ -24,6 +24,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject go_NotcamRight;
     [SerializeField] GameObject go_NotcamLeft;
 
+    public void ResetAngle()
+    {
+        currentAngleX = 0;
+        currentAngleY = 0;
+    }
+
     void Start()
     {
         originPosY = tf_CameraView.localPosition.y;    
@@ -119,17 +125,17 @@ public class PlayerController : MonoBehaviour
     }
     void CrosshairMoving()
     {
-        // ¸¶¿ì½º À§Ä¡¸¦ È­¸é Áß¾ÓÀ» ±âÁØÀ¸·Î ÇÑ »ó´ëÀû À§Ä¡·Î º¯È¯
+        // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ë¥¼ í™”ë©´ ì¤‘ì•™ì„ ê¸°ì¤€ìœ¼ë¡œ í•œ ìƒëŒ€ì  ìœ„ì¹˜ë¡œ ë³€í™˜
         tf_Crosshair.localPosition = new Vector2(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2);
 
         float mouseX = tf_Crosshair.localPosition.x;
         float mouseY = tf_Crosshair.localPosition.y;
 
-        // ½ÊÀÚ¼±ÀÇ À§Ä¡¸¦ È­¸éÀÇ °æ°è ³»·Î Á¦ÇÑÇÏ°í Á¶±İ¾¿ ÀÌ°İ
+        // ì‹­ìì„ ì˜ ìœ„ì¹˜ë¥¼ í™”ë©´ì˜ ê²½ê³„ ë‚´ë¡œ ì œí•œí•˜ê³  ì¡°ê¸ˆì”© ì´ê²©
         float clampedX = Mathf.Clamp(mouseX, -Screen.width / 2 + 50, Screen.width / 2 - 50);
         float clampedY = Mathf.Clamp(mouseY, -Screen.height / 2 + 50, Screen.height / 2 - 50);
 
-        // Á¦ÇÑµÈ À§Ä¡¸¦ ½ÊÀÚ¼±ÀÇ À§Ä¡·Î ¼³Á¤
+        // ì œí•œëœ ìœ„ì¹˜ë¥¼ ì‹­ìì„ ì˜ ìœ„ì¹˜ë¡œ ì„¤ì •
         tf_Crosshair.localPosition = new Vector2(clampedX, clampedY);
     }
 }
