@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -128,8 +127,8 @@ public class InteractionController : MonoBehaviour
 
         InteractionEvent t_InteractionEvent = hitInfo.transform.GetComponent<InteractionEvent>();
 
-        if(t_InteractionEvent.GetAppearType() == AppearType.Appear) dialogueManager.SetAppearObjects(t_InteractionEvent.GetTargets());
-        else if(t_InteractionEvent.GetAppearType() == AppearType.Disappear) dialogueManager.SetDisappearObjects(t_InteractionEvent.GetTargets());
+        if (t_InteractionEvent.GetAppearType() == AppearType.Appear) dialogueManager.SetAppearObjects(t_InteractionEvent.GetTargets());
+        else if (t_InteractionEvent.GetAppearType() == AppearType.Disappear) dialogueManager.SetDisappearObjects(t_InteractionEvent.GetTargets());
         dialogueManager.ShowDialogue(t_InteractionEvent.GetDialogue());
     }
 

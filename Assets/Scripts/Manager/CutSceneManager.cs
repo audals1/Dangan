@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,7 +31,7 @@ public class CutSceneManager : MonoBehaviour
         if (isShow)
         {
             Sprite t_Sprite = Resources.Load<Sprite>("CutScenes/" + cutSceneName);
-            if (t_Sprite != null) 
+            if (t_Sprite != null)
             {
                 img_cutScene.gameObject.SetActive(true);
                 img_cutScene.sprite = t_Sprite;

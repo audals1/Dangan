@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +30,9 @@ public class DialogueParser : MonoBehaviour
                 if (++i < data.Length)
                 {
                     row = data[i].Split(new char[] { ',' });
-                }else{
+                }
+                else
+                {
                     break;
                 }
             } while (row[0].ToString() == "");

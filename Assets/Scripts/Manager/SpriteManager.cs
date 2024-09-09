@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpriteManager : MonoBehaviour
@@ -9,7 +8,7 @@ public class SpriteManager : MonoBehaviour
 
     private bool CheckSameSprite(SpriteRenderer spriteRenderer, Sprite sprite)
     {
-        if(spriteRenderer.sprite == sprite)
+        if (spriteRenderer.sprite == sprite)
         {
             return true;
         }
@@ -46,6 +45,6 @@ public class SpriteManager : MonoBehaviour
             }
         }
 
-        
+
     }
 }

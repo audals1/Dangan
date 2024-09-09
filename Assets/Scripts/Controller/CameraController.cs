@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -27,7 +26,7 @@ public class CameraController : MonoBehaviour
 
     public void CameraTargetting(Transform target, float camSpeed = 0.05f, bool isReset = false, bool isFinish = false)
     {
-        if(!isReset)
+        if (!isReset)
         {
             if (target == null) return;
             StopAllCoroutines();
@@ -35,7 +34,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-            if(cameraCoroutine != null)
+            if (cameraCoroutine != null)
             {
                 StopCoroutine(cameraCoroutine);
             }

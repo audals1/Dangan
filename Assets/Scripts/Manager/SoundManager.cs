@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -24,7 +22,7 @@ public class SoundManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
@@ -37,9 +35,9 @@ public class SoundManager : MonoBehaviour
 
     void PlayBGM(string _name)
     {
-        for(int i = 0; i < bgmSounds.Length; i++)
+        for (int i = 0; i < bgmSounds.Length; i++)
         {
-            if(_name == bgmSounds[i].name)
+            if (_name == bgmSounds[i].name)
             {
                 bgmPlayer.clip = bgmSounds[i].clip;
                 bgmPlayer.Play();
@@ -84,7 +82,7 @@ public class SoundManager : MonoBehaviour
                 return;
             }
         }
-        Debug.LogError( _name + "해당 이름의 효과음 파일이 없습니다.");
+        Debug.LogError(_name + "해당 이름의 효과음 파일이 없습니다.");
     }
 
     void StopAllEffectSound()
@@ -98,7 +96,7 @@ public class SoundManager : MonoBehaviour
     void PlayVoiceSound(string _name)
     {
         AudioClip _clip = Resources.Load<AudioClip>("Sounds/Voice/" + _name);
-        if(_clip != null)
+        if (_clip != null)
         {
             voicePlayer.clip = _clip;
             voicePlayer.Play();

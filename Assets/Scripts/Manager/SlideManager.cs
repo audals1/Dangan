@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,7 @@ public class SlideManager : MonoBehaviour
     public IEnumerator AppearSlide(string slideName)
     {
         Sprite t_Sprite = Resources.Load<Sprite>("Slide_Image/" + slideName);
-        if(t_Sprite != null)
+        if (t_Sprite != null)
         {
             img_SlideCG.gameObject.SetActive(true);
             img_SlideCG.sprite = t_Sprite;
@@ -22,7 +21,7 @@ public class SlideManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError( slideName + "이미지가 없습니다.");
+            Debug.LogError(slideName + "이미지가 없습니다.");
         }
 
         yield return new WaitForSeconds(0.5f);
