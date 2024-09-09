@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DialogueParser : MonoBehaviour
 {
-    public Dialogue[] Parse(string _CSVFileName)
+    public Dialogue[] Parse(string p_CSVFileName)
     {
         List<Dialogue> dialogueList = new List<Dialogue>();
-        TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName);
+        TextAsset csvData = Resources.Load<TextAsset>(p_CSVFileName);
 
         string[] data = csvData.text.Split(new char[] { '\n' }); // 개행으로 구분
 

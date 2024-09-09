@@ -38,6 +38,14 @@ public class Dialogue
     public string[] voiceName;
 }
 
+public enum AppearType
+{
+    None,
+    Appear,
+    Disappear,
+}
+
+
 [System.Serializable]
 public class DialogueEvent
 {
@@ -45,4 +53,8 @@ public class DialogueEvent
 
     public Vector2 line;
     public Dialogue[] dialogues;
+
+    [Space]
+    public AppearType appearType;
+    public GameObject[] appearObjects;
 }

@@ -22,6 +22,24 @@ public class DialogueManager : MonoBehaviour
     [Header("텍스트 출력 딜레이")]
     [SerializeField] float typeDelay = 0.1f;
 
+
+    // 이벤트 끝나면 등장/퇴장시킬 오브젝트들
+    GameObject[] go_AppearObjects;
+    byte appearTypeNumber = 0;
+    const byte None = 0, APPEAR = 1, DISAPPEAR = 2;
+
+    public void SetAppearObjects(GameObject[] p_Targets)
+    {
+        go_AppearObjects = p_Targets;
+        appearTypeNumber = APPEAR;
+    }
+
+    public void SetDisappearObjects(GameObject[] p_Targets)
+    {
+        go_AppearObjects = p_Targets;
+        appearTypeNumber = DISAPPEAR;
+    }
+
     InteractionController interactionController;
     CameraController cameraController;
     SpriteManager spriteManager;
@@ -68,7 +86,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogue(Dialogue[] p_dialogues)
+    public void ShowDialogue(Dialogue[] p_Dialogues)
     {
         isDialogue = true;
         txt_Dialogue.text = "";
@@ -76,7 +94,7 @@ public class DialogueManager : MonoBehaviour
 
         interactionController.SettingMouseUI(false);
 
-        dialogues = p_dialogues;
+        dialogues = p_Dialogues;
         cameraController.CamOriginSetting();
         StartCoroutine(CameraTargetSettingType());
     }
@@ -122,6 +140,11 @@ public class DialogueManager : MonoBehaviour
             StartCoroutine(cutSceneManager.CutSceneCoroutine(null, false));
             yield return new WaitUntil(() => CutSceneManager.isFinished);
         }
+
+        AppearOrDisappearObjects();
+
+        yield return new WaitUntil(() => Spin.isFinished);
+
         isDialogue = false;
         lineCount = 0;
         contextCount = 0;
@@ -129,6 +152,29 @@ public class DialogueManager : MonoBehaviour
         isNext = false;
         cameraController.CameraTargetting(null, 0.01f, true, true);
         SettingDialogueUI(false);
+    }
+
+    void AppearOrDisappearObjects()
+    {
+        if (go_AppearObjects != null)
+        {
+            Spin.isFinished = false;
+            for (int i = 0; i < go_AppearObjects.Length; i++)
+            {
+                if (appearTypeNumber == APPEAR)
+                {
+                    go_AppearObjects[i].SetActive(true);
+                    StartCoroutine(go_AppearObjects[i].GetComponent<Spin>().SetAppearOrDisappear(true));
+                }
+                else if (appearTypeNumber == DISAPPEAR)
+                {
+                    StartCoroutine(go_AppearObjects[i].GetComponent<Spin>().SetAppearOrDisappear(false));
+                }
+            }
+        }
+
+        go_AppearObjects = null;
+        appearTypeNumber = None;
     }
 
     void ChangeSprite()
