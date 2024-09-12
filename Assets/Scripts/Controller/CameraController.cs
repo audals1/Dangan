@@ -71,7 +71,7 @@ public class CameraController : MonoBehaviour
 
         if (isFinish)
         {
-            interactionController.SettingMouseUI(true);
+            InteractionController.isInteract = false;
             playerController.ResetAngle();
         }
     }

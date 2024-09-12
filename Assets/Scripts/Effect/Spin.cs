@@ -6,7 +6,7 @@ public class Spin : MonoBehaviour
     [SerializeField] Transform target;
 
     bool isSpin = false;
-    public static bool isFinished = false;
+    public static bool isFinished = true;
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +21,6 @@ public class Spin : MonoBehaviour
         {
             if (!isSpin)
             {
-                /*Quaternion t_Rotation = Quaternion.LookRotation(target.position);
-                Vector3 t_Euler = new Vector3(0, t_Rotation.eulerAngles.y, 0);
-                transform.eulerAngles = t_Euler;*/
                 // 플레이어를 향한 방향 벡터 계산
                 Vector3 direction = target.position - transform.position;
                 direction.y = 0; // Y축 회전만 고려

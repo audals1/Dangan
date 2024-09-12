@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     [SerializeField] Transform tf_Crosshair;
 
     [SerializeField] Transform tf_CameraView;
@@ -26,6 +28,19 @@ public class PlayerController : MonoBehaviour
         currentAngleX = 0;
         currentAngleY = 0;
     }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }   
 
     void Start()
     {

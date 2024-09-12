@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static bool isWaiting = false;
+
     [SerializeField] GameObject go_DialogueBar;
     [SerializeField] GameObject go_DialogueNameBar;
 
@@ -26,6 +28,14 @@ public class DialogueManager : MonoBehaviour
     GameObject[] go_AppearObjects;
     byte appearTypeNumber = 0;
     const byte None = 0, APPEAR = 1, DISAPPEAR = 2;
+
+    // 다음 이벤트를 위한 세팅
+    GameObject go_NextEvent;
+
+    public void SetNextEvent(GameObject p_NextEvent)
+    {
+        go_NextEvent = p_NextEvent;
+    }
 
     public void SetAppearObjects(GameObject[] p_Targets)
     {
@@ -94,10 +104,20 @@ public class DialogueManager : MonoBehaviour
         interactionController.SettingMouseUI(false);
 
         dialogues = p_Dialogues;
-        cameraController.CamOriginSetting();
-        StartCoroutine(CameraTargetSettingType());
+
+        StartCoroutine(StartDialogue());
     }
 
+    IEnumerator StartDialogue()
+    {
+        if (isWaiting)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        cameraController.CamOriginSetting();
+        StartCoroutine(CameraTargetSettingType());
+        isWaiting = false;
+    }
     IEnumerator CameraTargetSettingType()
     {
         switch (dialogues[lineCount].cameraType)
@@ -150,7 +170,18 @@ public class DialogueManager : MonoBehaviour
         dialogues = null;
         isNext = false;
         cameraController.CameraTargetting(null, 0.01f, true, true);
-        SettingDialogueUI(false);
+        yield return new WaitUntil(() => !InteractionController.isInteract);
+
+        if (go_NextEvent != null)
+        {
+            go_NextEvent.SetActive(true);
+            go_NextEvent = null;
+        }
+
+        else
+        {
+            interactionController.SettingMouseUI(true);
+        }
     }
 
     void AppearOrDisappearObjects()

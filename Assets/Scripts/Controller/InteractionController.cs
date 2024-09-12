@@ -24,10 +24,12 @@ public class InteractionController : MonoBehaviour
     [SerializeField] Image img_InteractionEffect;
 
     DialogueManager dialogueManager;
+    TransferManager transferManager;
 
     private void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>();
+        transferManager = FindObjectOfType<TransferManager>();
     }
 
     // Update is called once per frame
@@ -42,7 +44,21 @@ public class InteractionController : MonoBehaviour
     {
         go_Crosshair.SetActive(p_flag);
         go_Cursor.SetActive(p_flag);
-        go_TargetNameBar.SetActive(p_flag);
+
+        if (!p_flag)
+        {
+            StopCoroutine("Interaction");
+            Color color = img_Interaction.color;
+            color.a = 0;
+            img_Interaction.color = color;
+            go_TargetNameBar.SetActive(p_flag);
+        }
+
+        else
+        {
+            go_NormalCrosshair.SetActive(true);
+            go_InteractionCrosshair.SetActive(false);
+        }
 
         isInteract = !p_flag;
     }
@@ -120,16 +136,40 @@ public class InteractionController : MonoBehaviour
         StartCoroutine(WaitCollision());
     }
 
+    void DialogueCall(InteractionEvent p_event)
+    {
+        dialogueManager.SetNextEvent(p_event.GetNextEvent());
+        if (p_event.GetAppearType() == AppearType.Appear) dialogueManager.SetAppearObjects(p_event.GetTargets());
+        else if (p_event.GetAppearType() == AppearType.Disappear) dialogueManager.SetDisappearObjects(p_event.GetTargets());
+        dialogueManager.ShowDialogue(p_event.GetDialogue());
+    }
+
+    void TrancferCall()
+    {
+        string t_SceneName = hitInfo.transform.GetComponent<InteractionDoor>().GetSceneName();
+        string t_LocationName = hitInfo.transform.GetComponent<InteractionDoor>().GetLocationName();
+        var coroutine = transferManager.Transfer(t_SceneName, t_LocationName);
+        StartCoroutine(coroutine);
+    }
+
     IEnumerator WaitCollision()
     {
         yield return new WaitUntil(() => QuestionEffect.isCollide);
         QuestionEffect.isCollide = false;
 
+        yield return new WaitForSeconds(0.5f);
+
         InteractionEvent t_InteractionEvent = hitInfo.transform.GetComponent<InteractionEvent>();
 
-        if (t_InteractionEvent.GetAppearType() == AppearType.Appear) dialogueManager.SetAppearObjects(t_InteractionEvent.GetTargets());
-        else if (t_InteractionEvent.GetAppearType() == AppearType.Disappear) dialogueManager.SetDisappearObjects(t_InteractionEvent.GetTargets());
-        dialogueManager.ShowDialogue(t_InteractionEvent.GetDialogue());
+        if (hitInfo.transform.GetComponent<InteractionType>().isObject)
+        {
+            DialogueCall(t_InteractionEvent);
+        }
+
+        else
+        {
+            TrancferCall();
+        }
     }
 
     IEnumerator Interaction(bool p_Appear)
