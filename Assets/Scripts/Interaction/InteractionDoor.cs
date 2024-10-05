@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class InteractionDoor : MonoBehaviour
 {
-
+    [SerializeField] bool isOnlyVeiw;
     [SerializeField] string sceneName;
     [SerializeField] string locationName;
 
     public string GetSceneName()
     {
+        CameraController.onlyView = isOnlyVeiw;
         return sceneName;
     }
 

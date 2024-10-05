@@ -39,7 +39,7 @@ public class InteractionEvent : MonoBehaviour
 
      void Update()
     {
-        if (isAutoEvent && DatabaseManager.isFinished)
+        if (isAutoEvent && DatabaseManager.isFinished && TransferManager.isFinished)
         {
             DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
             DialogueManager.isWaiting = true;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
+    public static bool onlyView = true; //이동가능할 때는 rot이 이전 rot으로, 이동 불가할 때는 zero로 설정
     Vector3 originPos;
     Quaternion originRot;
 
@@ -21,7 +21,10 @@ public class CameraController : MonoBehaviour
     public void CamOriginSetting()
     {
         originPos = transform.position;
-        originRot = Quaternion.Euler(0, 0, 0);
+        if (onlyView)
+            originRot = Quaternion.Euler(0, 0, 0);
+        else
+            originRot = transform.rotation;
     }
 
     public void CameraTargetting(Transform target, float camSpeed = 0.05f, bool isReset = false, bool isFinish = false)

@@ -13,8 +13,8 @@ public class CutSceneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        splashManager = FindObjectOfType<SplashManager>();
         cameraController = FindObjectOfType<CameraController>();
+        splashManager = FindObjectOfType<SplashManager>();
     }
 
     public bool CheckCutScene()
@@ -24,9 +24,9 @@ public class CutSceneManager : MonoBehaviour
 
     public IEnumerator CutSceneCoroutine(string cutSceneName, bool isShow)
     {
-        splashManager.isFinished = false;
+        SplashManager.isFinished = false;
         StartCoroutine(splashManager.FadeOut(true, false));
-        yield return new WaitUntil(() => splashManager.isFinished);
+        yield return new WaitUntil(() => SplashManager.isFinished);
 
         if (isShow)
         {
@@ -43,9 +43,9 @@ public class CutSceneManager : MonoBehaviour
         else
             img_cutScene.gameObject.SetActive(false);
 
-        splashManager.isFinished = false;
+        SplashManager.isFinished = false;
         StartCoroutine(splashManager.FadeIn(true, false));
-        yield return new WaitUntil(() => splashManager.isFinished);
+        yield return new WaitUntil(() => SplashManager.isFinished);
 
         yield return new WaitForSeconds(0.5f);
 

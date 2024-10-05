@@ -122,10 +122,10 @@ public class DialogueManager : MonoBehaviour
     {
         switch (dialogues[lineCount].cameraType)
         {
-            case CameraType.FadeIn: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(false, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
-            case CameraType.FadeOut: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(false, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
-            case CameraType.FlashIn: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(true, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
-            case CameraType.FlashOut: SettingDialogueUI(false); splashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(true, true)); yield return new WaitUntil(() => splashManager.isFinished); break;
+            case CameraType.FadeIn: SettingDialogueUI(false); SplashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(false, true)); yield return new WaitUntil(() => SplashManager.isFinished); break;
+            case CameraType.FadeOut: SettingDialogueUI(false); SplashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(false, true)); yield return new WaitUntil(() => SplashManager.isFinished); break;
+            case CameraType.FlashIn: SettingDialogueUI(false); SplashManager.isFinished = false; StartCoroutine(splashManager.FadeIn(true, true)); yield return new WaitUntil(() => SplashManager.isFinished); break;
+            case CameraType.FlashOut: SettingDialogueUI(false); SplashManager.isFinished = false; StartCoroutine(splashManager.FadeOut(true, true)); yield return new WaitUntil(() => SplashManager.isFinished); break;
             case CameraType.Targetting: cameraController.CameraTargetting(dialogues[lineCount].target); break;
             case CameraType.Reset: cameraController.CameraTargetting(null, 0.01f, true, false); break;
             case CameraType.ShowCutScene: SettingDialogueUI(false); CutSceneManager.isFinished = false; StartCoroutine(cutSceneManager.CutSceneCoroutine(dialogues[lineCount].spriteName[contextCount], true)); yield return new WaitUntil(() => CutSceneManager.isFinished); break;
