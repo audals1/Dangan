@@ -165,9 +165,13 @@ public class InteractionController : MonoBehaviour
 
     void DialogueCall(InteractionEvent p_event)
     {
-        dialogueManager.SetNextEvent(p_event.GetNextEvent());
-        if (p_event.GetAppearType() == AppearType.Appear) dialogueManager.SetAppearObjects(p_event.GetTargets());
-        else if (p_event.GetAppearType() == AppearType.Disappear) dialogueManager.SetDisappearObjects(p_event.GetTargets());
+        if (!DatabaseManager.instance.eventflags[p_event.GetEventNum()])
+        {
+            dialogueManager.SetNextEvent(p_event.GetNextEvent());
+            if (p_event.GetAppearType() == AppearType.Appear) dialogueManager.SetAppearObjects(p_event.GetTargets());
+            else if (p_event.GetAppearType() == AppearType.Disappear) dialogueManager.SetDisappearObjects(p_event.GetTargets());
+        }
+
         dialogueManager.ShowDialogue(p_event.GetDialogue());
     }
 
@@ -195,7 +199,14 @@ public class InteractionController : MonoBehaviour
 
         else
         {
-            TrancferCall();
+            if (t_InteractionEvent != null && t_InteractionEvent.GetDialogue() != null)
+            {
+                DialogueCall(t_InteractionEvent);
+            }
+            else
+            {
+                TrancferCall();
+            }
         }
     }
 

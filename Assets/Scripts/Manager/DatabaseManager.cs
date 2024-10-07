@@ -9,6 +9,8 @@ public class DatabaseManager : MonoBehaviour
 
     Dictionary<int, Dialogue> dialogueDic = new Dictionary<int, Dialogue>();
 
+    public bool[] eventflags = new bool[100];
+
     public static bool isFinished = false;
 
     private void Awake()

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Spin : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    Transform target;
 
     bool isSpin = false;
     public static bool isFinished = true;
@@ -11,7 +11,7 @@ public class Spin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        target = PlayerController.instance.transform;
     }
 
     // Update is called once per frame
